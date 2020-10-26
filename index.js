@@ -37,7 +37,19 @@ function createTimeOutEvent(employee, punchOutData){
     employee.timeOutEvents.push(punchTime);
     return employee;
 }
-
+//0044-03-15
 function hoursWorkedOnDate(employee, date){
-    debugger;
+    let punchIn, punchOut;
+    [punchIn, punchOut] = [employee.timeInEvents.find(item => date).hour, employee.timeOutEvents.find(item => date).hour];
+    return Math.abs((punchIn-punchOut)/100);
+}
+function wagesEarnedOnDate(employee, date){
+    let payRate = employee.payPerHour;
+    return hoursWorkedOnDate(employee, date) * payRate
+}
+
+function allWagesFor(employee){
+    let total = 0;
+    employee.timeInEvents.forEach(record => {total+= wagesEarnedOnDate(employee, record)});
+    return total;
 }
